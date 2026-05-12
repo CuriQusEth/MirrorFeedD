@@ -1,0 +1,41 @@
+{
+  "name": "Mirror Feed Orchestrator",
+  "description": "Mirror Feed platformunda çalışan ERC-8004 uyumlu AI Agent. Feed mirroring, content aggregation, real-time distribution ve multi-source management yapan akıllı orchestrator.",
+  "version": "1.0.0",
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "image": "https://mirror-feed-d.vercel.app/logo.png",
+  "wallets": {
+    "base": "0x29536D0bc1004ab274c4F0F59734Ad74D4559b7B"
+  },
+  "services": [
+    {
+      "name": "A2A",
+      "endpoint": "https://mirror-feed-d.vercel.app/.well-known/agent-card.json",
+      "version": "1.0.0",
+      "description": "Agent-to-Agent communication"
+    },
+    {
+      "name": "MCP",
+      "endpoint": "https://mirror-feed-d.vercel.app/api/mcp",
+      "version": "1.0.0",
+      "description": "Model Context Protocol - Active command execution"
+    },
+    {
+      "name": "API",
+      "endpoint": "https://mirror-feed-d.vercel.app/api/agent",
+      "version": "1.0.0",
+      "description": "Main agent control API"
+    }
+  ],
+  "capabilities": [
+    "feed-mirroring",
+    "content-aggregation",
+    "real-time-distribution",
+    "multi-source-management",
+    "content-syndication",
+    "mcp-command-execution"
+  ],
+  "supportedChains": ["eip155:8453"],
+  "active": true,
+  "status": "online"
+}
