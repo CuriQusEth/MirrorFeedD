@@ -10,21 +10,41 @@ A surreal, mind-bending endless runner + reflection puzzle game built on Base Ma
 - **Reflection Orbs**: Collect fragments of reality and stack massive multipliers.
 - **On-Chain Recording**: Uses ERC-8021 and ERC-8004 concepts to record deepest runs and biggest reflection scores trustlessly on Base.
 - **Dodge Distortions**: Avoid "Distortions" and "Glitches" to prevent the feed from completely corrupting.
-- **MCP API**: Includes an MCP server endpoint for "Mirror Feed Orchestrator" agent to perform feed-mirroring and content aggregation.
+- **Platform Agent**: Incorporates the **Mirror Feed Orchestrator** AI Agent handling feed mirroring, content aggregation, and syndication.
 
-## Development Stack
-This project uses Vite, React, Tailwind CSS, Canvas API, and Framer Motion for the frontend, and Express for the backend (providing MCP and Agent APIs).
+## Technical Stack
+- **Frontend**: Next.js (App Router compliant) / React, Tailwind CSS, Canvas API, Framer Motion
+- **Web3**: Wagmi & Viem configured for Base Mainnet
+- **State Management**: Zustand
+- **Agent Integration**: Model Context Protocol (MCP) compatible endpoints
 
-- React 19 + Vite
-- Zustand for state management
-- Wagmi & Viem for Web3/Base connection
+## Orchestrator Agent & MCP
+
+The **Mirror Feed Orchestrator** is an ERC-8004 compatible AI Agent that handles real-time distribution and multi-source management.
+
+- **Agent Card**: Served at `/.well-known/agent-card.json`
+- **Agent API**: Available at `/api/agent` (Next.js App Router format)
+- **MCP Endpoint**: Available at `/api/mcp` (Next.js App Router format)
+
+### MCP Capabilities
+The agent's MCP interface exposes tools to interact with the game feed directly:
+- `get_race_status`
+- `start_race`
+- `get_leaderboard`
+- `optimize_speed`
+- `get_track_info`
 
 ## Running Locally
-Ensure you have Node.js installed, then execute:
 
-```sh
-npm install
-npm run dev
-```
+1. Install dependencies:
+   ```sh
+   npm install
+   ```
+2. Run the development server:
+   ```sh
+   npm run dev
+   ```
+3. Check the Agent registration at `http://localhost:3000/.well-known/agent-card.json`.
 
-You can find the Agent configuration at `/.well-known/agent-card.json`.
+---
+*Note: Ensure your wallet is connected to Base Mainnet to interact with on-chain mechanics.*
