@@ -35,6 +35,20 @@
     "content-syndication",
     "mcp-command-execution"
   ],
+  "skills": [
+    {
+      "name": "feed-mirroring",
+      "description": "Mirrors the feed across multiple dimensions."
+    },
+    {
+      "name": "content-aggregation",
+      "description": "Aggregates content from various real and mirrored sources."
+    },
+    {
+      "name": "mcp-command-execution",
+      "description": "Executes commands sent via MCP endpoint."
+    }
+  ],
   "supportedChains": ["eip155:8453"],
   "active": true,
   "status": "online"
