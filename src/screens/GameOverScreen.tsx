@@ -5,6 +5,7 @@ import { useSIWE } from '../lib/web3';
 import { useSendTransaction, useAccount } from 'wagmi';
 import { toHex } from 'viem';
 import { getTransactionAttributionCode } from '../lib/erc8021';
+import { Sun } from 'lucide-react';
 
 export function GameOverScreen() {
   const { score, distance, resetGame, startGame } = useGameStore();
@@ -13,6 +14,30 @@ export function GameOverScreen() {
   const { sendTransaction } = useSendTransaction();
   const [txStatus, setTxStatus] = useState<string>('');
 
+  const [gmStatus, setGmStatus] = useState<string>('');
+
+  const sendGMTransaction = async () => {
+    if (!isSignedIn || !isConnected) return;
+    try {
+      setGmStatus('Broadcasting GM to Denim...');
+      sendTransaction({
+        to: '0xcD0dd3716C5561De47a24949335dF8a8CD8F71a3',
+        value: 0n,
+      }, {
+        onSuccess(hash) {
+          setGmStatus(`GM confirmed in 200ms Denim block! Tx: ${hash.slice(0, 8)}...`);
+        },
+        onError(err) {
+          setGmStatus('GM Tx failed');
+          console.error(err);
+        }
+      });
+    } catch (e) {
+      setGmStatus('GM failed');
+      console.error(e);
+    }
+  };
+
   const handleOnChainRecord = async () => {
     if (!isSignedIn || !isConnected) {
       alert("Please connect your wallet in the main menu first.");
@@ -20,19 +45,17 @@ export function GameOverScreen() {
     }
 
     try {
-      setTxStatus('Awaiting wallet...');
+      setTxStatus('Broadcasting to Base Denim (200ms blocks)...');
       const attributionStr = getTransactionAttributionCode();
       const calldataHex = toHex(attributionStr);
 
-      // This is a stubbed "Say GM" or "Record Reflection" transaction
-      // It sends 0 ETH to the user themselves just to include the calldata.
       sendTransaction({
-        to: address || '0x0000000000000000000000000000000000000000', // Self for simple data recording
+        to: address || '0x0000000000000000000000000000000000000000',
         value: 0n,
         data: calldataHex
       }, {
         onSuccess(hash) {
-          setTxStatus(`Recorded! Tx: ${hash.slice(0, 8)}...`);
+          setTxStatus(`Confirmed in Denim 200ms block! Tx: ${hash.slice(0, 8)}...`);
         },
         onError(error) {
           setTxStatus('Tx Failed! See console.');
@@ -89,13 +112,27 @@ export function GameOverScreen() {
           </button>
 
           {isSignedIn && (
-             <button 
-               onClick={handleOnChainRecord}
-               className="mt-4 w-full bg-[#ff00ff]/20 border border-[#ff00ff] text-white hover:bg-[#ff00ff] font-bold uppercase tracking-widest px-6 py-4 transition-all relative"
-             >
-               Record On-Chain
-               {txStatus && <span className="block mt-2 text-[10px] opacity-80">{txStatus}</span>}
-             </button>
+            <div className="flex flex-col gap-3 mt-2 w-full">
+              <button 
+                onClick={sendGMTransaction}
+                className="w-full px-3 py-3 rounded-lg bg-[#E8A020]/20 hover:bg-[#E8A020]/30 border border-[#E8A020]/40 text-[#E8A020] transition-colors flex items-center justify-center gap-2 font-['Cinzel'] text-xs font-bold"
+              >
+                <Sun className="w-4 h-4" />
+                Say GM
+              </button>
+              {gmStatus && <span className="text-[10px] text-[#E8A020] -mt-1">{gmStatus}</span>}
+
+              <button 
+                onClick={handleOnChainRecord}
+                className="w-full bg-[#ff00ff]/20 border border-[#ff00ff] text-white hover:bg-[#ff00ff] font-bold uppercase tracking-widest px-6 py-4 transition-all relative text-xs"
+              >
+                Record This Reflection on-chain
+              </button>
+              {txStatus && <span className="text-[10px] text-cyan-300 -mt-1">{txStatus}</span>}
+              <div className="text-[9px] text-white/40 tracking-wider">
+                BASE DENIM MAINNET • 200MS CANONICAL BLOCKS
+              </div>
+            </div>
           )}
         </div>
       </motion.div>

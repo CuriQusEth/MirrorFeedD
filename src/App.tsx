@@ -18,18 +18,24 @@ function AppContent() {
   const { isConnected } = useAccount();
   const { sendTransaction } = useSendTransaction();
   const [isSending, setIsSending] = useState(false);
+  const [gmFeedback, setGmFeedback] = useState<string>('');
 
   const sendGMTransaction = async () => {
     if (!isConnected) return;
     try {
       setIsSending(true);
+      setGmFeedback('Broadcasting (200ms Denim block)...');
       sendTransaction({
         to: '0xcD0dd3716C5561De47a24949335dF8a8CD8F71a3',
         value: 0n,
-        // Optional calibration payload or ERC-8021 tracking if we want down the line
       }, {
         onSuccess: (hash) => {
-          console.log('GM said! Tx:', hash);
+          setGmFeedback(`Confirmed in Denim! ${hash.slice(0, 6)}...`);
+          setTimeout(() => setGmFeedback(''), 4000);
+        },
+        onError: () => {
+          setGmFeedback('GM failed');
+          setTimeout(() => setGmFeedback(''), 3000);
         },
         onSettled: () => {
           setIsSending(false);
@@ -38,6 +44,8 @@ function AppContent() {
     } catch (e) {
       console.error(e);
       setIsSending(false);
+      setGmFeedback('Error');
+      setTimeout(() => setGmFeedback(''), 3000);
     }
   };
 
@@ -61,7 +69,7 @@ function AppContent() {
 
       {/* Say GM Button */}
       {isConnected && (
-        <div className="absolute top-4 right-4 z-50">
+        <div className="absolute top-4 right-4 z-50 flex flex-col items-end">
           <button 
             onClick={sendGMTransaction}
             disabled={isSending}
@@ -70,6 +78,11 @@ function AppContent() {
             <Sun className="w-4 h-4" />
             {isSending ? 'Sending...' : 'Say GM'}
           </button>
+          {gmFeedback && (
+            <div className="text-[10px] text-[#E8A020] mt-1 font-mono tracking-tight bg-black/60 px-2 py-0.5 rounded border border-[#E8A020]/30">
+              {gmFeedback}
+            </div>
+          )}
         </div>
       )}
     </div>

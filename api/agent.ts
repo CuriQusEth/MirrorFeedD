@@ -13,9 +13,10 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({
       name: "Mirror Feed Orchestrator",
       status: "active",
+      network: "Base Mainnet (Denim 200ms)",
       wallet: "0x29536D0bc1004ab274c4F0F59734Ad74D4559b7B",
       platform: "Mirror Feed",
-      version: "1.0.0"
+      version: "1.1.0"
     });
   }
 

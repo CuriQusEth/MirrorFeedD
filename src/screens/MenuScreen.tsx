@@ -41,13 +41,17 @@ export function MenuScreen() {
         Initiate Dive
       </button>
 
-      <div className="mt-auto pb-8 w-full flex flex-col items-center gap-4">
+      <div className="mt-auto pb-8 w-full flex flex-col items-center gap-3">
+        <div className="flex items-center gap-2 px-3 py-1 bg-cyan-950/40 border border-cyan-500/20 text-[10px] text-cyan-400 font-mono tracking-widest uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          BASE DENIM MAINNET • 200MS CANONICAL BLOCKS
+        </div>
         {!isSignedIn ? (
           <button 
             onClick={signIn}
-            className="text-xs text-white/50 hover:text-[#00ffff] uppercase tracking-widest border border-white/20 px-6 py-3 hover:border-[#00ffff] transition-colors"
+            className="text-xs text-white/70 hover:text-[#00ffff] uppercase tracking-widest border border-white/20 px-6 py-3 hover:border-[#00ffff] transition-colors"
           >
-            Connect Base (SIWE)
+            Connect Base Denim (SIWE)
           </button>
         ) : (
           <div className="text-xs text-[#00ffff] uppercase tracking-widest px-6 py-3 bg-[#00ffff]/10 border border-[#00ffff]/30">

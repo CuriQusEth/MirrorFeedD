@@ -4,10 +4,23 @@ import { createConfig, http, WagmiProvider, useAccount, useConnect, useDisconnec
 import { base } from 'wagmi/chains';
 import { injected, metaMask, safe } from 'wagmi/connectors';
 
+// Base Denim Mainnet configuration (200ms native canonical blocks)
+export const BASE_DENIM_CONFIG = {
+  name: 'Base Mainnet (Denim)',
+  chainId: base.id,
+  blockTimeMs: 200,
+  rpcUrl: 'https://mainnet.base.org',
+  version: 'Denim v1.5+',
+};
+
 export const config = createConfig({
   chains: [base],
   transports: {
-    [base.id]: http(),
+    [base.id]: http('https://mainnet.base.org', {
+      batch: true,
+      retryCount: 3,
+      retryDelay: 200, // Matched with Denim 200ms block intervals
+    }),
   },
   connectors: [
     injected({ shimDisconnect: false }),
